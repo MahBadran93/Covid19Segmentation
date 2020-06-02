@@ -12,8 +12,9 @@ import numpy as np
 model = 0
 def Network(input):
     global model
-    #BACKBONE = 'efficientnetb7' # Accuracy : 0.8771349 with 20 epoch
-    BACKBONE = 'densenet201' # Accuracy : 0.86626434 with 20 epoch
+    #BACKBONE = 'efficientnetb7' # Accuracy : 0.8771349 with 20 epoch, lr =1e-4, loss: bce_dice_loss, metrices: iou_score
+    #BACKBONE = 'densenet201' # Accuracy : 0.86626434 with 20 epoch, lr = 1e-4, loss: bce_dice_loss, metrices: iou_score
+    BACKBONE = 'inceptionresnetv2' # Accuracy: 0.60136926, 20 epoch, lr = le-5, ----
 
     base_model = Unet(BACKBONE, encoder_weights='imagenet',classes=4, activation='softmax')
     N = input.shape[-1]
@@ -24,7 +25,7 @@ def Network(input):
     model = Model(inp, out, name=base_model.name)
 
     # Choose Adam Optimizer 
-    optim = keras.optimizers.Adam(lr=1e-4)
+    optim = keras.optimizers.Adam(lr=1e-5)
 
     model.compile(
         optim,
@@ -43,9 +44,9 @@ def Fit(X_train,Y_train,X_val,Y_val ):
        validation_data=(X_val, Y_val)
     )
     # Save
-    model.save('drive/My Drive/Project/Densenetb7.h5')
+    model.save('drive/My Drive/Project/inceptionresnetv2.h5')
 
-    np.save('drive/My Drive/Project/historyDensenetb7.npy',history.history)
+    np.save('drive/My Drive/Project/historyinceptionresnetv2.npy',history.history)
     print('Training done.')
 
     return history, model
