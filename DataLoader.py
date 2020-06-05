@@ -10,6 +10,10 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from skimage.io import imread, imshow
 
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve, auc
+
+
 
 
 def nifToPng(imagesPath, masksPath):
@@ -76,10 +80,14 @@ def splitData():
 	    mask = imread(masks_Path+ id_)   
 	    Y[n] = mask #Fill empty Y_train with values from mask
 
-	# Split Train Test Validate
+	#  Train Test Validate
 	ratio=0.1
 	X_, X_val, Y_, Y_val = train_test_split(X, Y, test_size=ratio,random_state= 42)
 	X_train, X_tset, Y_train, Y_test = train_test_split(X_, Y_, test_size=ratio/(1-ratio),random_state=42)
 	print('\nSplit Done..\n')
 	return X_train, X_tset, Y_train, Y_test, X_, X_val, Y_, Y_val,X
 
+	def savePredictions(pred): 
+		path = 'drive/My Drive/Project/'
+		for i in range(pred.shape[0]):
+			imsave(path,pred[i])
