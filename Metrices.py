@@ -117,8 +117,8 @@ def pearsonr_Corr(results, references):
 def showLossAccu(history):
     plt.figure(figsize=(30, 5), num = 'Metrics')
     plt.subplot(121)
-    plt.plot(history['iou_score'])
-    plt.plot(history['val_iou_score'])
+    plt.plot(history['f1-score'])
+    plt.plot(history['val_f1-score'])
     plt.title('Model accuracy')
     plt.ylabel('precision')
     plt.xlabel('Epoch')
@@ -133,7 +133,7 @@ def showLossAccu(history):
     plt.xlabel('Epoch')
     plt.legend(['Train', 'val'], loc='upper left')
 
-    print(history['iou_score'])
+    #print(history['f1-score'])
 
 
 # Reciever Operator Charachtarisitics 
@@ -162,3 +162,17 @@ def ROC(results, reference):
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.show()
+
+
+def bland_altman_plot(data1, data2, *args, **kwargs):
+    data1     = np.asarray(data1)
+    data2     = np.asarray(data2)
+    mean      = np.mean([data1, data2], axis=0)
+    diff      = data1 - data2                   # Difference between data1 and data2
+    md        = np.mean(diff)                   # Mean of the difference
+    sd        = np.std(diff, axis=0)            # Standard deviation of the difference
+
+    plt.scatter(mean, diff, *args, **kwargs)
+    plt.axhline(md,           color='gray', linestyle='--')
+    plt.axhline(md + 1.96*sd, color='gray', linestyle='--')
+    plt.axhline(md - 1.96*sd, color='gray', linestyle='--')

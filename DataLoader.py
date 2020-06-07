@@ -9,9 +9,7 @@ import nibabel as nib
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from skimage.io import imread, imshow
-
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import roc_curve, auc
+from tensorflow.keras.utils import Sequence
 
 
 
@@ -91,3 +89,6 @@ def splitData():
 		path = 'drive/My Drive/Project/'
 		for i in range(pred.shape[0]):
 			imsave(path,pred[i])
+
+
+def DataGenerator(Sequence)			
