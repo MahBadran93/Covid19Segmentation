@@ -9,7 +9,6 @@ import nibabel as nib
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from skimage.io import imread, imshow
-from tensorflow.keras.utils import Sequence
 
 
 
@@ -80,7 +79,9 @@ def splitData():
 
 	#  Train Test Validate
 	ratio=0.1
+	# train data ratio: 0.9, validation data ratio: 0.1. for images(X) sand masks(y)
 	X_, X_val, Y_, Y_val = train_test_split(X, Y, test_size=ratio,random_state= 42)
+	# another split for train data(X_, Y_) : 0.1 / (0.9) ~ 0.11, approx : 0.8 train, 0.1 val , 0.1 test
 	X_train, X_tset, Y_train, Y_test = train_test_split(X_, Y_, test_size=ratio/(1-ratio),random_state=42)
 	print('\nSplit Done..\n')
 	return X_train, X_tset, Y_train, Y_test, X_, X_val, Y_, Y_val,X
@@ -91,4 +92,5 @@ def splitData():
 			imsave(path,pred[i])
 
 
-def DataGenerator(Sequence)			
+def DataGenerator(Sequence): 
+	pass
